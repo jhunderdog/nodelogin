@@ -3,9 +3,14 @@ const app = express();
 
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const userRouter = require('./routes/users');
 
+const db = require('./config/key').mongoURI;
+
+mongoose.connect(db, { useNewUrlParser : true})
+    .then( () => console.log("MongoDB Connected..."))
+    .catch(err => console.log(err));
 
 //Middleware
 app.use(morgan('dev'));
