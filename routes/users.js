@@ -1,11 +1,17 @@
 const express = require('express');
 const router = require('express-promise-router')();
-const controller = require('../controllers/users');
 
-router.route('/signup').post(controller.signUp);
+const { validateBody, schemas } = require('../helpers/routeHelpers');
 
-router.route('/signin').post(controller.signIn);
+const UsersController = require('../controllers/users');
 
-router.route('/secret').post(controller.secret);
+router.route('/signup')
+    .post(validateBody(schemas.authSchema), UsersController.signUp);
+
+router.route('/signin')
+    .post(UsersController.signIn);
+
+router.route('/secret')
+    .get(UsersController.secret);
 
 module.exports = router;
